@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XGTTest", "XGTTest\XGTTest.csproj", "{83203B5C-850C-4BC8-A62F-DC9E2640FF63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HPLC.Net.TCP", "HPLC.Net.TCP\HPLC.Net.TCP.csproj", "{FDBDC1E4-3EE5-478A-BDBA-791291402855}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{83203B5C-850C-4BC8-A62F-DC9E2640FF63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83203B5C-850C-4BC8-A62F-DC9E2640FF63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83203B5C-850C-4BC8-A62F-DC9E2640FF63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83203B5C-850C-4BC8-A62F-DC9E2640FF63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDBDC1E4-3EE5-478A-BDBA-791291402855}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDBDC1E4-3EE5-478A-BDBA-791291402855}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDBDC1E4-3EE5-478A-BDBA-791291402855}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDBDC1E4-3EE5-478A-BDBA-791291402855}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {81518FEE-9FD4-46F8-8948-E1276B900AB4}
+	EndGlobalSection
+EndGlobal
