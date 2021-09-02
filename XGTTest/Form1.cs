@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using XGTTest.Cls;
 using static XGTTest.Cls.XGT_Enum;
+using static XGTTest.Cls.XGT_Response;
 
 namespace XGTTest
 {
@@ -46,7 +47,7 @@ namespace XGTTest
             }
         }
 
-        private  void InitCotrol()
+        private void InitCotrol()
         {
             btnConnect.Click += BtnConnect_Click;
             btnSend.Click += BtnSend_Click;
@@ -104,19 +105,114 @@ namespace XGTTest
 
         void ReadData(string data)
         {
-            var receiveMsg = data;
-            //var readMsg = data;
+            try
+            {
 
-            XGT_Response res = new XGT_Response();
-
-            res.Header = Convert.ToByte(receiveMsg.Substring(0, 1));
-            res.NationalNo = receiveMsg.Substring(1, 4);
-            res.Cmd = receiveMsg.Substring(5, 8);
-            res.CmdType = receiveMsg.Substring(13, 4);
-            res.ErrorCode = receiveMsg.Substring(17, 4);
-            res.Tail = Convert.ToByte(receiveMsg.Substring(21, 1));
+                //var receiveMsg = data;
+                //var res = new XGT_Response();
+                //byte[] readBytes = new byte[data.Length];
 
 
+                //if (receiveMsg[0] == ACK)
+                //{
+                //    // Ack
+                //    var ack = res as ResponseAck;
+                //    ack.Header = Convert.ToByte(receiveMsg.Substring(0, 1));
+                //    ack.NationalNo = receiveMsg.Substring(1, 2);
+                //    ack.Cmd = receiveMsg.Substring(3, 1);
+                //    ack.CmdType = receiveMsg.Substring(4, 2);
+                //    ack.Block = receiveMsg.Substring(6, 2);
+                //    ack.DataSize = receiveMsg.Substring(8, 2);
+                //    ack.DataName = receiveMsg.Substring(10, 4);
+                //    ack.Tail = Convert.ToByte(receiveMsg.Substring(14, 1));
+                //    readBytes = ConvertStringToBytes(data, ack);
+
+                //}
+                //else if (receiveMsg[0] == NAK)
+                //{
+                //    // Nak
+                //    var nak = res as ResponseNak;
+                //    nak.Header = Convert.ToByte(receiveMsg.Substring(0, 1));
+                //    nak.NationalNo = receiveMsg.Substring(1, 2);
+                //    nak.Cmd = receiveMsg.Substring(3, 1);
+                //    nak.CmdType = receiveMsg.Substring(4, 2);
+                //    nak.ErrorCode = receiveMsg.Substring(6, 4);
+                //    nak.Tail = Convert.ToByte(receiveMsg.Substring(10, 1));
+                //    readBytes = ConvertStringToBytes(data, nak);
+                //}
+
+                //var str = Encoding.ASCII.GetString(readBytes);
+                if (data[0] == NAK)
+                {
+                    if (Enum.TryParse<EnErrorCode>(data.Substring(6, 4), out EnErrorCode ret))
+                    {
+                        switch ((int)ret)
+                        {
+                            case (int)EnErrorCode.블록수초과에러:
+                                data = ret.ToString();
+                                break;
+
+                            case (int)EnErrorCode.변수길이에러:
+                                data = ret.ToString();
+                                break;
+                            case (int)EnErrorCode.데이터타입에러:
+                                data = ret.ToString();
+                                break;
+                            case (int)EnErrorCode.데이터에러:
+                                data = ret.ToString();
+                                break;
+                            case (int)EnErrorCode.모니터실행에러1:
+                                data = ret.ToString();
+                                break;
+                            case (int)EnErrorCode.모니터실행에러2:
+                                data = ret.ToString();
+                                break;
+                            case (int)EnErrorCode.모니터실행에러3:
+                                data = ret.ToString();
+                                break;
+
+                            case (int)EnErrorCode.데이터크기에러:
+                                data = ret.ToString();
+                                break;
+                            case (int)EnErrorCode.여유프레임에러:
+                                data = ret.ToString();
+                                break;
+                            case (int)EnErrorCode.데이터값에러:
+                                data = ret.ToString();
+                                break;
+
+                            case (int)EnErrorCode.변수요구영역초과에러:
+                                data = ret.ToString();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+
+                // Invoke
+                if (this.InvokeRequired)
+                {
+                    this.Invoke(new Action(delegate ()
+                    {
+                        rbReadMsg.Text = data;
+                    }));
+                }
+                else
+                {
+                    rbReadMsg.Text = data;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Read Data Error : {ex}");
+            }
+        }
+
+        private byte[] ConvertStringToBytes(string data, XGT_Response res)
+        {
             System.Reflection.PropertyInfo[] propertyInfos = res.GetType().GetProperties();
 
             byte[] readBytes = new byte[data.Length];
@@ -125,19 +221,7 @@ namespace XGTTest
             {
                 offset = ByteCopy(item.GetValue(res).ToString(), offset, readBytes);
             }
-
-            // Invoke
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Action(delegate ()
-                {
-                    rbReadMsg.Text = Encoding.UTF8.GetString(readBytes);
-                }));
-            }
-            else
-            {
-                rbReadMsg.Text = Encoding.UTF8.GetString(readBytes);
-            }
+            return readBytes;
         }
 
         private int ByteCopy(string value, int offset, byte[] dest)
@@ -207,7 +291,7 @@ namespace XGTTest
             byteList.AddRange(data);
             byteList.Add((byte)EOT);
 
-                //var ret = await _client.SendAsync(byteList.ToArray());
+            //var ret = await _client.SendAsync(byteList.ToArray());
             Task.Run(() => TimerTask(byteList));
         }
 

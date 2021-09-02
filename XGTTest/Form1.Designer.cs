@@ -195,7 +195,7 @@ namespace XGTTest
             this.txtDataSize1.Name = "txtDataSize1";
             this.txtDataSize1.Size = new System.Drawing.Size(100, 21);
             this.txtDataSize1.TabIndex = 16;
-            this.txtDataSize1.Text = "06";
+            this.txtDataSize1.Text = "변수이름의길이 두자리";
             // 
             // txtDataName1
             // 

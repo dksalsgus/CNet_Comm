@@ -37,15 +37,6 @@ namespace XGTTest.Cls
         /// 변수 이름
         /// </summary>
         public string DataName { get; set; }
-
-        ///// <summary>
-        ///// 변수 크기
-        ///// </summary>
-        //public string DataSize2 { get; set; }
-        ///// <summary>
-        ///// 변수 이름
-        ///// </summary>
-        //public string DataName2 { get; set; }
         /// <summary>
         /// 테일
         /// </summary>
