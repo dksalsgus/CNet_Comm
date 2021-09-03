@@ -57,6 +57,7 @@ namespace XGTTest
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.btnDisconnect = new System.Windows.Forms.Button();
+            this.btnListen = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -203,7 +204,7 @@ namespace XGTTest
             this.txtDataName1.Name = "txtDataName1";
             this.txtDataName1.Size = new System.Drawing.Size(100, 21);
             this.txtDataName1.TabIndex = 17;
-            this.txtDataName1.Text = "%MW020";
+            this.txtDataName1.Text = "%MW001";
             // 
             // txtTail
             // 
@@ -300,11 +301,21 @@ namespace XGTTest
             this.btnDisconnect.Text = "Disconnect";
             this.btnDisconnect.UseVisualStyleBackColor = true;
             // 
+            // btnListen
+            // 
+            this.btnListen.Location = new System.Drawing.Point(578, 40);
+            this.btnListen.Name = "btnListen";
+            this.btnListen.Size = new System.Drawing.Size(100, 23);
+            this.btnListen.TabIndex = 33;
+            this.btnListen.Text = "Listen";
+            this.btnListen.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnListen);
             this.Controls.Add(this.btnDisconnect);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
@@ -370,6 +381,7 @@ namespace XGTTest
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Button btnDisconnect;
+        private System.Windows.Forms.Button btnListen;
     }
 }
 

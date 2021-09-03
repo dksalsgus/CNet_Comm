@@ -52,11 +52,16 @@ namespace XGTTest
             btnConnect.Click += BtnConnect_Click;
             btnSend.Click += BtnSend_Click;
             btnDisconnect.Click += BtnDisconnect_Click;
+            btnListen.Click += BtnListen_Click;
 
             _ipString = txtHost.Text.Trim();
             _port = int.Parse(txtPort.Text.Trim());
 
-            //await Task.Run(() => LinsteningTCP(_ipString, _port));
+        }
+
+        private async void BtnListen_Click(object sender, EventArgs e)
+        {
+            await Task.Run(() => LinsteningTCP(_ipString, _port));
         }
 
         private void BtnDisconnect_Click(object sender, EventArgs e)
@@ -83,7 +88,9 @@ namespace XGTTest
 
         private async Task LinsteningTCP(string ipString, int port)
         {
-            TcpListener listener = new TcpListener(new IPEndPoint(IPAddress.Parse(_ipString), port));
+            ipString = "127.0.0.1";
+            port = 4001;
+            TcpListener listener = new TcpListener(new IPEndPoint(IPAddress.Parse(ipString), port));
             listener.Start();
             while (true)
             {
@@ -94,10 +101,41 @@ namespace XGTTest
                 byte[] bytes = new byte[1024];
                 while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
                 {
-                    data += Encoding.Default.GetString(bytes, 0, length);
+                    data += Encoding.ASCII.GetString(bytes, 0, length);
                 }
                 Console.WriteLine($"받은 데이터 : {data}");
 
+
+                ResponseAck res = new ResponseAck();
+
+                res.NationalNo = "01";
+                res.Cmd = "R";
+                res.CmdType = "SS";
+                res.Block = "01";
+                res.DataName = "0000";
+                res.DataSize = res.DataName.Length.ToString("X02"); // txtDataSize1.Text.Trim();
+
+                var bcc = string.Empty;
+                System.Reflection.PropertyInfo[] propertyInfos = res.GetType().GetProperties();
+                var sendString = string.Empty;
+                foreach (var item in propertyInfos)
+                {
+                    if (item.Name == "Header" || item.Name == "Tail")
+                        continue;
+
+                    sendString += string.Concat(item.GetValue(res));
+                }
+                var body = Encoding.ASCII.GetBytes(sendString);
+
+                List<byte> byteList = new List<byte>();
+                byteList.Add((byte)ENQ);
+                byteList.AddRange(body);
+                byteList.Add((byte)EOT);
+                var str = Encoding.ASCII.GetString(byteList.ToArray());
+                Console.WriteLine($"보내는 데이터  : {str}");
+                stream.Write(byteList.ToArray(), 0, byteList.ToArray().Length);
+
+                stream.Close();
                 //ReadData(bytes);
             }
 
@@ -291,8 +329,10 @@ namespace XGTTest
             byteList.AddRange(data);
             byteList.Add((byte)EOT);
 
+
             //var ret = await _client.SendAsync(byteList.ToArray());
             Task.Run(() => TimerTask(byteList));
+
         }
 
         private async Task TimerTask(List<byte> byteList)
