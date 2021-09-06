@@ -45,7 +45,8 @@ namespace XGTTest.Cls
 
                 while (true)
                 {
-                    var startIndex = list.IndexOf((byte)ACK) | list.IndexOf((byte)NAK);
+                    //var startIndex = list.IndexOf((byte)ACK);
+                    var startIndex = list.IndexOf((byte)ACK) >= 0 ? list.IndexOf((byte)ACK) : list.IndexOf((byte)NAK);
                     if (startIndex < 0)
                     {
                         list.Clear();
